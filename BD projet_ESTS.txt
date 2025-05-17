@@ -1,0 +1,204 @@
+sudo systemctl start cassandra
+sudo systemctl status cassandra
+
+## si ne fonctionne pas redémarrer cassandra :
+sudo systemctl restart cassandra ##
+
+cqlsh
+
+## arrêter cassandra :
+sudo systemctl stop cassandra  ##
+------------------------------------------------------------
+Starting listening for CQL clients on /0.0.0.0:9042
+ sudo docker exec -it cassandra-db cqlsh
+
+-----------------------------------------------------
+CREATE KEYSPACE projet_est
+ use projet_est;
+
+
+-------------------------------------------------
+cqlsh:projet_est> CREATE TABLE utilisateurs (
+              ...    id UUID PRIMARY KEY,
+              ...    nom TEXT,
+              ...    email TEXT,
+              ...    role TEXT,
+              ...    mot_de_pass TEXT,
+              ...    date_inscription TIMESTAMP
+              ... );
+cqlsh:projet_est> CREATE TABLE cours (
+              ...     id UUID PRIMARY KEY,
+              ...     titre TEXT,
+              ...     description TEXT,
+              ...     enseignant_id UUID,
+              ...     date_creation TIMESTAMP
+              ... );
+cqlsh:projet_est> CREATE TABLE inscriptions (
+              ...     id UUID PRIMARY KEY,
+              ...     utilisateur_id UUID,
+              ...     cours_id UUID,
+              ...     date_inscription TIMESTAMP
+              ... );
+cqlsh:projet_est>
+cqlsh:projet_est> cqlsh:projet_est>
+              ...
+              ...
+cqlsh:projet_est> CREATE TABLE fichiers (
+              ...     id UUID PRIMARY KEY,
+              ...     nom TEXT,
+              ...     url TEXT,
+              ...     cours_id UUID,
+              ...     date_upload TIMESTAMP
+              ... );
+cqlsh:projet_est> CREATE TABLE messages (
+              ...     id UUID PRIMARY KEY,
+              ...     contenu TEXT,
+              ...     utilisateur_id UUID,
+              ...     cours_id UUID,
+              ...     date_envoi TIMESTAMP
+              ... );
+cqlsh:projet_est> CREATE TABLE examens (
+              ...     id UUID PRIMARY KEY,
+              ...     titre TEXT,
+              ...     cours_id UUID,
+              ...     date_examen TIMESTAMP,
+              ...     fichier_id UUID
+              ... );
+cqlsh:projet_est> CREATE TABLE devoirs (
+              ...     id UUID PRIMARY KEY,
+              ...     titre TEXT,
+              ...     description TEXT,
+              ...     cours_id UUID,
+              ...     date_creation TIMESTAMP,
+              ...     date_limite TIMESTAMP
+              ... );
+---------------------------------------
+
+
+
+
+Voici une version mise à jour de votre modèle, avec les deux dernières tables supprimées (**Notifications** et **Soumissions**) et une nouvelle table **Devoirs** ajoutée.
+
+---
+
+### **📚 Tables Principales du Modèle de Base de Données (Mise à Jour)**
+
+#### **1. Utilisateurs**
+```sql
+CREATE TABLE utilisateurs (
+    id UUID PRIMARY KEY,                -- Identifiant unique
+    nom TEXT,                           -- Nom complet
+    email TEXT UNIQUE,                  -- Adresse email unique
+    role TEXT,                          -- Rôle (étudiant, enseignant, admin)
+    mot_de_passe_hash TEXT,             -- Mot de passe haché
+    date_inscription TIMESTAMP          -- Date d'inscription
+);
+```
+
+#### **2. Cours**
+```sql
+CREATE TABLE cours (
+    id UUID PRIMARY KEY,                
+    titre TEXT,                         
+    description TEXT,                   
+    enseignant_id UUID,                 
+    date_creation TIMESTAMP             
+);
+```
+
+#### **3. Inscriptions**
+```sql
+CREATE TABLE inscriptions (
+    id UUID PRIMARY KEY,               
+    utilisateur_id UUID,               
+    cours_id UUID,                      
+    date_inscription TIMESTAMP          
+);
+```
+
+#### **4. Fichiers**
+```sql
+CREATE TABLE fichiers (
+    id UUID PRIMARY KEY,                
+    nom TEXT,                          
+    url TEXT,                           
+    cours_id UUID,                      
+    date_upload TIMESTAMP              
+);
+```
+
+
+#### **5. Messages (Forum ou Chat)**
+```sql
+CREATE TABLE messages (
+    id UUID PRIMARY KEY,                
+    contenu TEXT,                       
+    utilisateur_id UUID,                
+    cours_id UUID,                      
+    date_envoi TIMESTAMP                
+);
+```
+
+#### **7. Examen**
+CREATE TABLE examens (
+    id UUID PRIMARY KEY,              
+    titre TEXT,                       
+    cours_id UUID,                    
+    date_examen TIMESTAMP,            
+    fichier_id UUID                   
+);
+
+
+```
+
+#### **6. Devoirs**
+Pour gérer les devoirs assignés aux étudiants dans un cours.  
+```sql
+CREATE TABLE devoirs (
+    id UUID PRIMARY KEY,               
+    titre TEXT,                         
+    description TEXT,                   
+    cours_id UUID,                      
+    date_creation TIMESTAMP,           
+    date_limite TIMESTAMP               
+);
+```
+
+---
+
+### **Relations Entre les Tables (Mise à Jour)**
+
+- Les **Utilisateurs** peuvent être des enseignants ou des étudiants.
+- Les **Cours** sont associés à un enseignant et peuvent avoir plusieurs étudiants via les **Inscriptions**.
+- Les **Devoirs** sont liés à un **Cours**.
+- Les **Messages** permettent une interaction entre les utilisateurs dans un cours.
+- Les **Fichiers** sont attachés à un **Cours** (documents partagés, contenus pédagogiques, etc.).
+
+---
+
+### **Exemple de Requêtes**
+1. **Lister les devoirs d’un cours** :
+   ```sql
+   SELECT titre, description, date_limite 
+   FROM devoirs
+   WHERE cours_id = '<id_cours>';
+   ```
+
+2. **Lister les cours auxquels un étudiant est inscrit** :
+   ```sql
+   SELECT c.titre, c.description 
+   FROM cours c
+   JOIN inscriptions i ON c.id = i.cours_id
+   WHERE i.utilisateur_id = '<id_etudiant>';
+   ```
+
+3. **Lister les fichiers associés à un cours** :
+   ```sql
+   SELECT nom, url 
+   FROM fichiers
+   WHERE cours_id = '<id_cours>';
+   ```
+
+---
+
+Cette version simplifiée reflète vos besoins. Si vous voulez des ajustements supplémentaires, je suis là ! 😊

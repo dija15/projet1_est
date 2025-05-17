@@ -1,0 +1,115 @@
+.container-login{
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: hidden;
+    background: linear-gradient(-45deg, #ff6ec4, #7873f5, #4ade80, #facc15);
+    background-size: 400% 400%;
+    animation: gradientMove 26s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 25%; }
+    25% { background-position: 25% 50%; }
+    50% { background-position: 100% 50%; }
+    75% { background-position: 50% 25%; }
+    100% { background-position: 0% 25%; }
+  }
+
+.form-login-container{
+    width: 50vh;
+    min-height: 60vh;
+
+    margin-bottom: 35px;
+    text-align: center;
+    position: relative;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.151);
+    background: rgba(255, 255, 255, 0.5);    
+}
+
+
+.form-login-container .logo{
+    width: 200px;
+    height: 100px;
+    border-radius: 34px;
+    position: absolute;
+    top: -40px; /* moitié de la hauteur pour le chevauchement */
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 8px rgba(87, 169, 224, 0.274);
+}
+
+.form-login{
+    width: fit-content;
+    height: 65%;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* background: #c79696; */
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.inputs-section-login{
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.inputs-section-login div 
+input[type='email'],
+input[type='password']{
+    width: 240px;
+    padding: 10px;
+    margin: 4px 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: 0px;
+}
+input[type='text'],input[type='password']:focus{
+    outline: 1px rgb(100, 100, 100);
+}
+.form-login p{
+    font-size: xx-large;
+    margin: 0px;
+}
+
+
+.Remember-me-section-login{
+    display: flex;
+    margin-top: 5px;
+    padding-left: 10px;
+}
+
+
+.submit-section-login{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.submit-section-login div{
+    text-align: start;
+}
+.submit-section-login div small a{
+    text-decoration: none;
+}
+
+.submit-section-login button{
+    width: 115px;
+    height: 36px;
+    border: none;
+    border-radius: 24px;
+    background:rgb(0, 219, 80);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.submit-section-login button:active{
+    background:rgba(0, 218, 80, 0.753);
+}

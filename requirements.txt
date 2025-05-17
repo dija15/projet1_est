@@ -1,0 +1,21 @@
+# Flask & extensions
+flask==2.3.2
+flask-cors==4.0.0
+flask-jwt-extended==4.5.2
+
+# MinIO
+minio==7.1.16
+
+# Cassandra
+cassandra-driver==3.29.2 
+
+
+# JWT
+pyjwt==2.8.0
+
+# AWS SDK (optionnel pour certaines fonctionnalités MinIO)
+boto3==1.28.57
+
+# Autres utilitaires
+python-dotenv==1.0.0
+uuid==1.30

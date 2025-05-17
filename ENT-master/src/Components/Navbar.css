@@ -1,0 +1,23 @@
+
+.Navbar-container{
+    background-color: #18167c;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+.Navbar-container li{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
